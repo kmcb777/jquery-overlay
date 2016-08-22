@@ -151,6 +151,7 @@
       this.$textarea.on({
         'input.overlay':  $.proxy(this.onInput,       this),
         'change.overlay': $.proxy(this.onInput,       this),
+        'focus.overlay': $.proxy(this.onInput,       this),
         'scroll.overlay': $.proxy(this.resizeOverlay, this),
         'resize.overlay': $.proxy(this.resizeOverlay, this)
       });
