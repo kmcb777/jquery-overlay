@@ -175,7 +175,8 @@
       },
 
       renderTextOnOverlay: function () {
-        var text, i, l, strategy, match, style;
+        var text, i, l, strategy, match, style, attributes;
+        attributes = '';
         text = $('<div></div>').text(this.$textarea.val());
 
         // Apply all strategies
@@ -190,9 +191,16 @@
           }
 
           // Style attribute's string
-          style = Object.keys(strategy.css).map(function(propCSS) {
-            return propCSS + ': ' + strategy.css[propCSS]
-          }).join(';')
+          if (strategy.css) {
+            style = Object.keys(strategy.css).map(function(propCSS) {
+              return propCSS + ': ' + strategy.css[propCSS]
+            }).join(';')
+            attributes = 'style="' + style + '"'
+          }
+
+          if (strategy.cssClass) {
+            attributes += ' class="' + strategy.cssClass + '"'
+          }
 
           text.contents().each(function () {
             var text, html, str, prevIndex;
@@ -207,7 +215,7 @@
               }
               str = str[0];
               html += escape(text.substr(prevIndex, match.lastIndex - prevIndex - str.length));
-              html += '<span style="' + style + '">' + escape(str) + '</span>';
+              html += '<span ' + attributes + '>' + escape(str) + '</span>';
             };
             if (prevIndex) $(this).replaceWith(html);
           });
